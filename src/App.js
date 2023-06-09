@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import Costs from './components/Costs/Costs'
+import NewCost from './components/NewCost/NewCost'
 
 function App() {
+  const INITIAL_COSTS = [
+    {
+      date: new Date(2023, 6, 9),
+      title: 'Холодильник',
+      price: 999,
+      id: Math.random(),
+    },
+    {
+      date: new Date(2023, 2, 9),
+      title: 'Ножи',
+      price: 150,
+      id: Math.random(),
+    },
+    {
+      date: new Date(2023, 1, 9),
+      title: 'Ноутбук',
+      price: 1999,
+      id: Math.random(),
+    },
+  ]
+  const [costs, setCosts] = useState(INITIAL_COSTS)
+  const deleteCost = (id) => {
+    setCosts(costs.filter((cost) => cost.id !== id))
+  }
+  const addNewCost = (newCost) => {
+    setCosts(prevCosts => {
+      return [newCost, ...prevCosts]
+    })
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <NewCost addNewCost={addNewCost} />
+      <Costs costs={costs} deleteCost={deleteCost} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
